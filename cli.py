@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """
 This program runs a Hapke radiative transfer model to derive optical
 constants n and k from reflectance data. This version of the program

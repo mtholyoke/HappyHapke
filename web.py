@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 from __future__ import division, print_function
 import io
 import logging
@@ -101,7 +101,7 @@ class HapkeHandler(tornado.web.RequestHandler):
     # These values can be received in python using the below line.
     section = self.get_argument('section')
     state = self.application.prog_states[uid]
-    
+
     kwargs = self._collect_kwargs(ignored_keys=('uid', 'section'))
     if 'lcp' in kwargs:
         cpfile = kwargs.pop('lcp', None)
@@ -111,7 +111,7 @@ class HapkeHandler(tornado.web.RequestHandler):
             if state:
                 self.application.prog_states[uid] = state
 
-        # run the section method    
+        # run the section method
     logging.info('Running %s: %r', section, kwargs)
     try:
       #Calling each function at run time
