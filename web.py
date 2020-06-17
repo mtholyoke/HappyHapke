@@ -31,10 +31,18 @@ def main():
 
   logging.basicConfig(level=logging.INFO)
 
+  kwargs = {}
+  if args.port == 443:
+    kwargs['ssl_options'] = {
+      'certfile': '/etc/ssl/certs/opcon-2020-05.mtholyoke.edu.crt',
+      'keyfile': '/etc/ssl/private/opcon-2020-05.mtholyoke.edu.key',
+    }
+
   app = MplWebApp(
       [(r'/', HapkeHandler)],
       static_path=os.path.join(os.path.dirname(__file__), 'html'),
-      debug=True)
+      debug=True,
+      **kwargs)
   app.listen(args.port)
   print('Starting UI server at http://%s:%s/' % (gethostname(), args.port))
   try:
@@ -56,7 +64,7 @@ class HapkeHandler(tornado.web.RequestHandler):
   def _handle_download(self):
     uid = self.get_argument('uid')
     state = self.application.prog_states[uid]
-    param = self.get_argument('p') # retrieves p from the url 
+    param = self.get_argument('p') # retrieves p from the url
     fname, mimetype, data = state._download_data(param)
     self.set_header('Content-Type', mimetype)
     self.set_header('Content-Disposition', 'attachment; filename=' + fname)
